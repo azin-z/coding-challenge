@@ -4,6 +4,7 @@ import string
 
 from config import *
 
+
 class Data:
     def __init__(self):
         if not os.path.isfile(path_to_data_file):
@@ -36,4 +37,9 @@ class Data:
         with open(path_to_data_file, 'w') as data_file:
             for i in range(number_of_entries):
                 data_file.write(self.make_valid_email() + '\n')
+
+    def iterate_items(self):
+        with open(path_to_data_file, 'rb') as data_file:
+            for line in data_file:
+                yield line
 
