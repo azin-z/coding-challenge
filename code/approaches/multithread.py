@@ -5,12 +5,13 @@ from config import *
 
 
 class MultiThread:
-    def __init__(self, work_function):
+    def __init__(self, work_function, num_of_workers=10):
         self.work = queue.Queue()
         self.results = queue.Queue()
-        self.num_of_workers = 10
+        self.num_of_workers = num_of_workers
         self.process_item = work_function
         self.start_workers()
+        self.work_count = 0
 
     def do_work(self, in_queue, out_queue):
         while True:
@@ -28,8 +29,9 @@ class MultiThread:
 
     def add_work(self, work):
         self.work.put(work)
+        self.work_count += 1
 
     def collect_results(self):
         self.work.join()
-        for i in range(number_of_entries):
-            print(self.results.get())
+        for i in range(self.work_count):
+            logging.debug(self.results.get())

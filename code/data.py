@@ -1,9 +1,10 @@
 import os.path
 import random
 import string
+import itertools
 
+# from config import *
 from config import *
-
 
 class Data:
     def __init__(self):
@@ -43,3 +44,8 @@ class Data:
             for line in data_file:
                 yield line
 
+    def iterate_parallel(self, workers):
+        with open(path_to_data_file, 'rb') as data_file:
+            iters = itertools.chain(data_file, (None,) * workers)
+            for num_and_line in enumerate(iters):
+                yield num_and_line
