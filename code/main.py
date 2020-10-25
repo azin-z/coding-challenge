@@ -1,11 +1,17 @@
-from data import Data
 import time
-from utils.utils import timing_decorator, email_is_valid
 import argparse
 import threading
 import queue
+import re
 
+from data import Data
 from config import *
+
+
+# This is not a complete check for every possible valid email address
+# but catches most of the normal ones
+def email_is_valid(address):
+    return re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", address)
 
 
 class MultiThreadedRun:
@@ -48,11 +54,13 @@ class MultiThreadedRun:
         self.collect_results()
 
 
-@timing_decorator
 def main(args):
-    multi_threaded_run = MultiThreadedRun(args.workers)
-    multi_threaded_run.run()
 
+    multi_threaded_run = MultiThreadedRun(args.workers)
+
+    start_time = time.time()
+    multi_threaded_run.run()
+    logging.info("run took {} second(s)".format(round(time.time() - start_time)))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run program to send emails from a list')

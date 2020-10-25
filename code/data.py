@@ -3,7 +3,6 @@ import random
 import string
 import itertools
 
-# from config import *
 from config import *
 
 class Data:
