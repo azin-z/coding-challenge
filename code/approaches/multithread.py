@@ -3,6 +3,15 @@ import queue
 
 from config import *
 
+# Multithreading is sometimes not a good solution in python because of
+# the Global Interpreter Lock in CPython.
+# But this is only when the task is CPU bound.
+# It does not affect this example, because in each thread we're merely calling a sleep function
+# which releases the GIL and lets other threads execute.
+# Since the email sending code will also be an IO bound work,
+# the concurrency that a multithreaded code allows greatly speeds things up
+# it won't let the CPU sit idle and runs other threads as one is waiting for the API call
+
 
 class MultiThread:
     def __init__(self, work_function, num_of_workers=10):

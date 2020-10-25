@@ -5,7 +5,7 @@ import os
 
 from config import *
 
-
+# @profile
 def timing_decorator(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
